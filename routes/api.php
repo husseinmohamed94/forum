@@ -14,6 +14,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(["prefix" => "v1","namespace"=>"ApI"],function($router){
+   //below mentio routes are public,user can accss thosr wihout any restriction
+       Route::group(["prefix"=>"auth"],function(){ 
+        //create new user
+        Route::post("register","AuthController@register");
+        //login user
+        Route::post("login","AuthController@login");
+
+        //refersh JWt token 
+        Route::get("refresh","AuthController@refresh");
+
+    });
+
+    //below mention route are available only for the aythticate users
+    Route::group(["middleware"=>"auth:api","prefix"=>"auth"],function(){
+        //logout user form appliction
+        Route::post('logout',"AuthController@logout");
+        //get user info
+        Route::get("user","AuthController@user");
+    });
 });

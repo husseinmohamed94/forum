@@ -12,8 +12,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Auth::routes();
-Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('login/{provider}', 'Auth\SocialAccountController@redirectToProvider');
 Route::get('login/{provider}/callback', 'Auth\SocialAccountController@handleProviderCallback');
